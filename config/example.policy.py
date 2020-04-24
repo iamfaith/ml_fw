@@ -4,7 +4,7 @@ project: 'image-classification'
 
 base_path: '/content/gdrive/My Drive/dataset'  #/google drive
 
-# wandb: True
+wandb: True
 train:
   # dir: './results/resnet34.0.policy'
   batch_size: 16
