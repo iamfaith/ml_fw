@@ -2,7 +2,7 @@ framework: 'keras' #torch
 
 project: 'image-classification'
 
-base_path: '/content/gdrive/My Drive/dataset'  #/google drive
+base_path: '/content/drive/My Drive/dataset'  #/google drive
 
 wandb: True
 train:
