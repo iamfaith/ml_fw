@@ -1,6 +1,6 @@
 
-from default_transform import *
-from rules_transform import *
+from .default_transform import *
+from .rules_transform import *
 
 
 def get_transform(config, dataset_type, **params):

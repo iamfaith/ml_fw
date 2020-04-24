@@ -28,12 +28,13 @@
 
 # torch.cuda.empty_cache()
 
-from common import Decorator
+# from common import Decorator
 
-@Decorator.wandb
-def hellow():
-    print('aaa')
+# @Decorator.wandb
+# def hellow():
+#     print('aaa')
     
     
 if __name__ == "__main__":
-    hellow()
+    import transform.transform as trans
+    print(trans.get_transform)

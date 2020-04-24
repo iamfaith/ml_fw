@@ -14,7 +14,7 @@ def _check_param(config, param):
     return None
 
 
-def keras_rules(config, dataset_type, **params):
+def torch_rules(config, dataset_type, **params):
     print('torch_rules', params)
     assert 'rules' in params or config['transform']['rules']
 
