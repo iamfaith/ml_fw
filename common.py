@@ -3,9 +3,7 @@ import cv2
 import math
 import matplotlib.pyplot as plt
 import functools
-import yaml
 import os
-import collections
 
 
 class ImgUtil(object):
@@ -47,13 +45,6 @@ class Decorator(object):
 
         return decorator
 
-
-def load_config(filepath, Loader=yaml.Loader):
-    assert os.path.exists(filepath)
-    with open(filepath) as fid:
-        config = yaml.load(fid)
-        # print(config['optimizer'])
-    return collections.defaultdict(str, config)
 # Visualize images in the dataset
 # characters = glob.glob('simpsons-dataset/kaggle_simpson_testset/kaggle_simpson_testset/**')
 
@@ -66,6 +57,24 @@ def load_config(filepath, Loader=yaml.Loader):
 #     plt.subplot(5, 5, i+1) #.set_title(l)
 #     plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 #     i += 1
+
+
+def readfile(path, label, width=299, height=299):
+    assert os.path.exists(path)
+
+    image_dir = sorted(os.listdir(path))
+    x = np.zeros((len(image_dir), width, height, 3), dtype=np.uint8)
+    y = np.zeros((len(image_dir)), dtype=np.uint8)
+
+    for i, file in enumerate(image_dir):
+        img = cv2.imread(os.path.join(path, file))
+        x[i, :, :] = cv2.resize(img, (width, height))
+        if label:
+            y[i] = int(file.split("_")[0])
+    if label:
+        return x, y
+    else:
+        return x
 
 
 if __name__ == "__main__":

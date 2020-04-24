@@ -13,7 +13,7 @@ def wandb(func):
 
 
 def _checkpoint_filename(config):
-    return config['framework'] + "-{epoch:04d}" + _subffix.get(config['framework'])
+    return "{epoch:04d}-" + config['framework'] + _subffix.get(config['framework'])
 
 
 def _checkpoint_dir(config):
@@ -84,30 +84,53 @@ def save_checkpoint(config):
     #     return f(**config.model.params)
 
 
-def load_keras_model(config):
-    checkpoint_dir = _checkpoint_dir(config)
+def _get_model_files(config, checkpoint_dir):
     files = []
     if os.path.exists(checkpoint_dir):
         for f in os.listdir(checkpoint_dir):
             if f.endswith(_subffix.get(config['framework'])):
                 files.append(f)
+    files.sort(key=lambda f: int(f.split('-')[0]), reverse=True)
+
+
+def load_torch_model(config):
+    checkpoint_dir = _checkpoint_dir(config)
+    files = _get_model_files(config, checkpoint_dir)
     if len(files) > 0:
-        files.sort(key=lambda f: f, reverse=True)            
+        import torch
+        model = torch.load(os.path.join(checkpoint_dir, files[0]))
+        return model
+    return None
+
+
+def load_keras_model(config):
+    checkpoint_dir = _checkpoint_dir(config)
+    files = _get_model_files(config, checkpoint_dir)
+    if len(files) > 0:
         from keras.models import load_model
         import tensorflow as tf
-        model = tf.keras.models.load_model(os.path.join(checkpoint_dir, files[0]))
+        model = tf.keras.models.load_model(
+            os.path.join(checkpoint_dir, files[0]))
         return model
     return None
 
 
 def load_model(config):
-    assert 'framework' in config and 'project' in config
     print('config:', config)
     f = globals().get('load_{}_model'.format(config['framework']))
     return f(config)
 
 
-if __name__ == "__main__":
+def test():
+    names = ['{}-keras.pth'.format(i) for i in range(20)]
+    import random
+    random.shuffle(names)
+    print(names)
+    [].sort(key=lambda f: int(f.split('-')[0]), reverse=True)
+    print(names)
+
+
+def test2():
     import sys
     abs_path = os.path.abspath('./')
     print(abs_path)
@@ -117,3 +140,7 @@ if __name__ == "__main__":
         '/Users/faith/Desktop/pytorch/config/example.policy.yml')
     print(config, config)
     print(save_checkpoint(config))
+
+
+if __name__ == "__main__":
+    test()

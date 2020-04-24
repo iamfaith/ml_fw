@@ -1,15 +1,22 @@
-framework: 'keras'
+framework: 'keras' #torch
 
 project: 'image-classification'
 
 base_path: './'  #/google drive
 
-wandb: True
+# wandb: True
 train:
   # dir: './results/resnet34.0.policy'
   batch_size: 16
   epochs: 32
   learning_rate: 0.0001
+
+transform:
+  name: 'rules'
+  rules: './transform/rules.json'
+  params:
+    per_image_norm: True
+    size: 299
 
 optimizer:
   name: 'adam'

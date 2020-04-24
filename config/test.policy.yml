@@ -1,0 +1,4 @@
+framework: 'torch' #torch
+
+project: 'image-classification'
+
