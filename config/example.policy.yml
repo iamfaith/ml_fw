@@ -12,7 +12,7 @@ train:
   learning_rate: 0.0001
 
 transform:
-  name: '_default'
+  name: 'default'
   rules: './transform/rules.json'
   params:
     per_image_norm: True
