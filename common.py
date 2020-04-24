@@ -15,15 +15,17 @@ class ImgUtil(object):
         self.path = path
         self.imgs = imgs
         if self.path is not None:
-            self.imgs = glob.glob(self.path)
+            assert os.path.exists(self.path)
+            self.imgs = os.listdir(self.path)
 
     def show(self, end, begin=0):
         assert begin <= end
+        print(self.imgs[begin:end])
         plt.figure(figsize=(10, 10))
         plt.subplots_adjust(wspace=0, hspace=0)
         sub = int(round(math.sqrt(end)))
         for index, img in enumerate(self.imgs[begin:end]):
-            img = cv2.imread(img)
+            img = cv2.imread(os.path.join(self.path, img))
             img = cv2.resize(img, (250, 250))
             plt.axis('off')
             plt.subplot(sub, sub, index+1)
