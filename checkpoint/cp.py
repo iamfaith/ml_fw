@@ -16,9 +16,14 @@ def _checkpoint_filename(config):
     return config['framework'] + "-{epoch:04d}" + _subffix.get(config['framework'])
 
 
-def _load_checkpoint_path(config):
+def _checkpoint_dir(config):
     checkpoint_dir = os.path.join(os.path.abspath(
         config['base_path']), config['project'])
+    return checkpoint_dir
+
+
+def _load_checkpoint_path(config):
+    checkpoint_dir = _checkpoint_dir(config)
     os.makedirs(checkpoint_dir, exist_ok=True)
     checkpoint_path = os.path.join(
         checkpoint_dir, _checkpoint_filename(config))
@@ -77,6 +82,29 @@ def save_checkpoint(config):
     #     return f()
     # else:
     #     return f(**config.model.params)
+
+
+def load_keras_model(config):
+    checkpoint_dir = _checkpoint_dir(config)
+    files = []
+    if os.path.exists(checkpoint_dir):
+        for f in os.listdir(checkpoint_dir):
+            if f.endswith(_subffix.get(config['framework'])):
+                files.append(f)
+    if len(files) > 0:
+        files.sort(key=lambda f: f, reverse=True)            
+        from keras.models import load_model
+        import tensorflow as tf
+        model = tf.keras.models.load_model(os.path.join(checkpoint_dir, files[0]))
+        return model
+    return None
+
+
+def load_model(config):
+    assert 'framework' in config and 'project' in config
+    print('config:', config)
+    f = globals().get('load_{}_model'.format(config['framework']))
+    return f(config)
 
 
 if __name__ == "__main__":
