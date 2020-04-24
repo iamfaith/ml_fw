@@ -1,0 +1,16 @@
+framework: 'keras'
+
+project: 'image-classification'
+
+base_path: './'  #/google drive
+
+wandb: True
+train:
+  # dir: './results/resnet34.0.policy'
+  batch_size: 16
+  epochs: 32
+
+optimizer:
+  name: 'adam'
+  params:
+    lr: 0.0005
