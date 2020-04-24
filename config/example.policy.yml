@@ -22,3 +22,6 @@ optimizer:
   name: 'adam'
   params:
     lr: 0.0005
+
+data:
+  num_workers: 4
