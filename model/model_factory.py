@@ -103,3 +103,8 @@ def get_model(config):
 # from torchsummary import summary
 # model.cuda()
 # summary(model, (4, 512, 512))
+#torch.cuda.empty_cache()
+#train_val_x = np.concatenate((train_x, val_x), axis=0)
+# train_val_y = np.concatenate((train_y, val_y), axis=0)
+# train_val_set = ImgDataset(train_val_x, train_val_y, train_transform)
+# train_val_loader = DataLoader(train_val_set, batch_size=batch_size, shuffle=True)
