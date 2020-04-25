@@ -59,16 +59,16 @@ class Decorator(object):
 #     i += 1
 
 
-def readfile(path, label, width=299, height=299):
+def readfile(path, label, height=299, width=299):
     assert os.path.exists(path)
 
     image_dir = sorted(os.listdir(path))
-    x = np.zeros((len(image_dir), width, height, 3), dtype=np.uint8)
+    x = np.zeros((len(image_dir), height, width, 3), dtype=np.uint8)
     y = np.zeros((len(image_dir)), dtype=np.uint8)
 
     for i, file in enumerate(image_dir):
         img = cv2.imread(os.path.join(path, file))
-        x[i, :, :] = cv2.resize(img, (width, height))
+        x[i, :, :] = cv2.resize(img, (height, width))
         if label:
             y[i] = int(file.split("_")[0])
     if label:

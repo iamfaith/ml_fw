@@ -98,3 +98,8 @@ def get_model(config):
         return f()
     else:
         return f(**config.model.params)
+    
+    
+# from torchsummary import summary
+# model.cuda()
+# summary(model, (4, 512, 512))
