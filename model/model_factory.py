@@ -25,11 +25,11 @@ def keras_InceptionV3(num_classes=11):
     # print(len(InceptionV3_model.layers))
     
     
-def get_resnet34(num_classes=28, **_):
+def get_resnet34(num_classes=28, in_channels=4, **_):
     model_name = 'resnet34'
     model = pretrainedmodels.__dict__[model_name](num_classes=1000, pretrained='imagenet')
     conv1 = model.conv1
-    model.conv1 = nn.Conv2d(in_channels=4,
+    model.conv1 = nn.Conv2d(in_channels=in_channels,
                             out_channels=conv1.out_channels,
                             kernel_size=conv1.kernel_size,
                             stride=conv1.stride,
